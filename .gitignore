@@ -1,3 +1,4 @@
 venv
 .idea
 telegram_bot/.env
+telegram_bot/utils/users.db
