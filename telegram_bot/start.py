@@ -5,6 +5,9 @@ from handlers import user
 from aiogram import executor
 from create_bot import dp
 
+# async def plus_energy(dp):
+#     asyncio.create_task(get_energy())
+
 if __name__ == "__main__":
     user.register_handlers_client(dp)
     executor.start_polling(dp, skip_updates=True)
