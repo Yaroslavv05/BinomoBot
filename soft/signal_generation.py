@@ -12,7 +12,7 @@ def get_data(symbol):
         symbol=symbol,
         screener="forex",
         exchange=Exchange.FOREX,
-        interval=Interval.INTERVAL_1_MINUTE
+        interval=Interval.INTERVAL_15_MINUTES
     )
     activiti = output.get_analysis().summary
     activiti['SYMBOL'] = symbol
@@ -59,7 +59,14 @@ while True:
                 name_pair = data['SYMBOL']
                 position = 'LONG'
                 exit = now + timedelta(minutes=5)
-                print(now.strftime("%H:%M"), data['SYMBOL'], f'Buy - выход со сделки в {exit}')
+                handler = TA_Handler(
+                    symbol=name_pair,
+                    screener="forex",
+                    exchange=Exchange.FOREX,
+                    interval=Interval.INTERVAL_1_MINUTE
+                )
+                price = handler.get_analysis()
+                print(f'Цена при входе - {price}', now.strftime("%H:%M"), name_pair, f'Buy - выход со сделки в {exit.strftime("%H:%M")}')
                 longs.append(data['SYMBOL'])
                 # browser = webdriver.Chrome()
                 # browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3A{data["SYMBOL"]}')
@@ -72,7 +79,16 @@ while True:
                 name_pair = data['SYMBOL']
                 position = 'SHORT'
                 exit = now + timedelta(minutes=5)
-                print(now.strftime("%H:%M"), data['SYMBOL'], f'Sell - выход со сделки в {exit.strftime("%H:%M")}')
+                handler = TA_Handler(
+                    symbol=name_pair,
+                    screener="forex",
+                    exchange=Exchange.FOREX,
+                    interval=Interval.INTERVAL_1_MINUTE
+                )
+                price = handler.get_analysis()
+                print(f'Цена при входе - {price}', now.strftime("%H:%M"), name_pair,
+                      f'Buy - выход со сделки в {exit.strftime("%H:%M")}')
+                shorts.append(data['SYMBOL'])
                 # browser = webdriver.Chrome()
                 # browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3A{data["SYMBOL"]}')
                 # time.sleep(3)
