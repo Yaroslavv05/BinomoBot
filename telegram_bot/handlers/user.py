@@ -23,5 +23,11 @@ async def send_statistic(message: types.Message):
     await bot.send_photo()
 
 
+async def send_every_10_minutes():
+    while True:
+        for user_id in users.get_all_users():
+            await bot.send_message(user_id[0], 'work')
+            await asyncio.sleep(3)
+
 def register_handlers_client(dp: Dispatcher):
     dp.register_message_handler(welcome, commands=['start', 'help'])
