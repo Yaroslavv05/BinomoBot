@@ -1,6 +1,7 @@
 from tradingview_ta import TA_Handler, Interval, Exchange
 import time
 from datetime import datetime, timedelta
+from db.InfoToSignalDB import DataInfoToSignal
 from selenium import webdriver
 
 symbols = ['EURUSD', 'GBPUSD', 'CHFJPY', 'EURJPY', 'EURCAD', 'USDJPY', 'NZDJPY', 'USDCAD', 'AUDUSD', 'AUDCAD', 'AUDNZD',
@@ -69,11 +70,14 @@ while True:
                 enter_price = handler.get_analysis().indicators['close']
                 print(f'Цена при входе - {enter_price}', time_now, name_pair, f'Buy - выход со сделки в {exit_position}')
                 longs.append(data['SYMBOL'])
-                # browser = webdriver.Chrome()
-                # browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3A{data["SYMBOL"]}')
-                # time.sleep(3)
-                # browser.save_screenshot('screenshot.png')
-                # browser.quit()
+                browser = webdriver.Chrome()
+                browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3A{data["SYMBOL"]}')
+                time.sleep(3)
+                browser.save_screenshot('screenshot.png')
+                browser.quit()
+                Data = DataInfoToSignal(name_pair=name_pair, position=position, enter_time=time_now, exit_time=exit_position, enter_price=enter_price)
+                Data.input_data()
+                time.sleep(600)
             elif data['RECOMMENDATION'] == 'STRONG_SELL' and data['SYMBOL'] not in shorts:
                 now = datetime.now()
                 time_now = now.strftime("%H:%M")
@@ -90,11 +94,14 @@ while True:
                 enter_price = handler.get_analysis().indicators['close']
                 print(f'Цена при входе - {enter_price}', time_now, name_pair, f'Sell - выход со сделки в {exit_position}')
                 shorts.append(data['SYMBOL'])
-                # browser = webdriver.Chrome()
-                # browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3A{data["SYMBOL"]}')
-                # time.sleep(3)
-                # browser.save_screenshot('screenshot.png')
-                # browser.quit()
+                browser = webdriver.Chrome()
+                browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3A{data["SYMBOL"]}')
+                time.sleep(3)
+                browser.save_screenshot('screenshot.png')
+                browser.quit()
+                Data = DataInfoToSignal(name_pair=name_pair, position=position, enter_time=time_now, exit_time=exit_position, enter_price=enter_price)
+                Data.input_data()
+                time.sleep(600)
             time.sleep(0.01)
         except:
             pass
