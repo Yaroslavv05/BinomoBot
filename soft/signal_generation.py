@@ -58,36 +58,37 @@ while True:
                 time_now = now.strftime("%H:%M")
                 name_pair = data['SYMBOL']
                 position = 'LONG'
-                exit = now + timedelta(minutes=5)
+                ex = now + timedelta(minutes=5)
+                exit_position = ex.strftime("%H:%M")
                 handler = TA_Handler(
                     symbol=name_pair,
                     screener="forex",
                     exchange=Exchange.FOREX,
                     interval=Interval.INTERVAL_1_MINUTE
                 )
-                price = handler.get_analysis()
-                print(f'Цена при входе - {price}', now.strftime("%H:%M"), name_pair, f'Buy - выход со сделки в {exit.strftime("%H:%M")}')
+                enter_price = handler.get_analysis().indicators['close']
+                print(f'Цена при входе - {enter_price}', time_now, name_pair, f'Buy - выход со сделки в {exit_position}')
                 longs.append(data['SYMBOL'])
                 # browser = webdriver.Chrome()
                 # browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3A{data["SYMBOL"]}')
                 # time.sleep(3)
                 # browser.save_screenshot('screenshot.png')
-                # browser.quit()    
+                # browser.quit()
             elif data['RECOMMENDATION'] == 'STRONG_SELL' and data['SYMBOL'] not in shorts:
                 now = datetime.now()
                 time_now = now.strftime("%H:%M")
                 name_pair = data['SYMBOL']
                 position = 'SHORT'
-                exit = now + timedelta(minutes=5)
+                ex = now + timedelta(minutes=5)
+                exit_position = ex.strftime("%H:%M")
                 handler = TA_Handler(
                     symbol=name_pair,
                     screener="forex",
                     exchange=Exchange.FOREX,
                     interval=Interval.INTERVAL_1_MINUTE
                 )
-                price = handler.get_analysis()
-                print(f'Цена при входе - {price}', now.strftime("%H:%M"), name_pair,
-                      f'Buy - выход со сделки в {exit.strftime("%H:%M")}')
+                enter_price = handler.get_analysis().indicators['close']
+                print(f'Цена при входе - {enter_price}', time_now, name_pair, f'Sell - выход со сделки в {exit_position}')
                 shorts.append(data['SYMBOL'])
                 # browser = webdriver.Chrome()
                 # browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3A{data["SYMBOL"]}')

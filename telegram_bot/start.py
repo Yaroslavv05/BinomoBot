@@ -4,7 +4,7 @@ from handlers import user
 # from callbacks.user import register_handlers_callback
 from aiogram import executor
 from create_bot import dp
-from BinomoBot.telegram_bot.handlers import user
+from telegram_bot.handlers import user
 
 
 async def send_messages(dp):

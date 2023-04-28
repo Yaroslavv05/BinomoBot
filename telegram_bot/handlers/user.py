@@ -7,8 +7,8 @@ from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher import FSMContext
 from datetime import datetime, timedelta
 
-from BinomoBot.telegram_bot.create_bot import bot
-from BinomoBot.telegram_bot.utils.database import UsersDatabase
+from telegram_bot.create_bot import bot
+from telegram_bot.utils.database import UsersDatabase
 
 users = UsersDatabase()
 
