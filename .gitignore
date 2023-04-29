@@ -2,3 +2,4 @@ venv
 .idea
 telegram_bot/.env
 telegram_bot/users.db
+soft/InfoToSignal.db
