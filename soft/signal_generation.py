@@ -76,7 +76,7 @@ def work():
                     browser.quit()
                     Data = DataInfoToSignal(name_pair=name_pair, position=position, enter_time=time_now, exit_time=exit_position, enter_price=enter_price)
                     Data.input_data()
-                    time.sleep(600)
+                    return True
                 elif data['RECOMMENDATION'] == 'STRONG_SELL' and data['SYMBOL'] not in shorts:
                     now = datetime.now()
                     time_now = now.strftime("%H:%M")
@@ -100,7 +100,7 @@ def work():
                     browser.quit()
                     Data = DataInfoToSignal(name_pair=name_pair, position=position, enter_time=time_now, exit_time=exit_position, enter_price=enter_price)
                     Data.input_data()
-                    time.sleep(600)
+                    return True
                 time.sleep(0.01)
             except:
                 pass
