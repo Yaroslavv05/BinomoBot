@@ -1,7 +1,7 @@
 from tradingview_ta import TA_Handler, Interval, Exchange
 import time
 from datetime import datetime, timedelta
-from db.InfoToSignalDB import DataInfoToSignal
+from BinomoBot.soft.db.InfoToSignalDB import DataInfoToSignal
 from selenium import webdriver
 
 symbols = ['EURUSD', 'GBPUSD', 'CHFJPY', 'EURJPY', 'EURCAD', 'USDJPY', 'NZDJPY', 'USDCAD', 'AUDUSD', 'AUDCAD', 'AUDNZD',
@@ -74,8 +74,8 @@ def work():
                     time.sleep(3)
                     browser.save_screenshot('screenshot.png')
                     browser.quit()
-                    Data = DataInfoToSignal(name_pair=name_pair, position=position, enter_time=time_now, exit_time=exit_position, enter_price=enter_price)
-                    Data.input_data()
+                    Data = DataInfoToSignal()
+                    Data.input_data(name_pair=name_pair, position=position, enter_time=time_now, exit_time=exit_position, enter_price=enter_price)
                     return True
                 elif data['RECOMMENDATION'] == 'STRONG_SELL' and data['SYMBOL'] not in shorts:
                     now = datetime.now()
@@ -98,12 +98,9 @@ def work():
                     time.sleep(3)
                     browser.save_screenshot('screenshot.png')
                     browser.quit()
-                    Data = DataInfoToSignal(name_pair=name_pair, position=position, enter_time=time_now, exit_time=exit_position, enter_price=enter_price)
-                    Data.input_data()
+                    Data = DataInfoToSignal()
+                    Data.input_data(name_pair=name_pair, position=position, enter_time=time_now, exit_time=exit_position, enter_price=enter_price)
                     return True
                 time.sleep(0.01)
             except:
                 pass
-
-
-work()

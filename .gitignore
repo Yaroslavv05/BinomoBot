@@ -3,3 +3,5 @@ venv
 telegram_bot/.env
 telegram_bot/users.db
 soft/InfoToSignal.db
+telegram_bot/InfoToSignal.db
+telegram_bot/screenshot.png
