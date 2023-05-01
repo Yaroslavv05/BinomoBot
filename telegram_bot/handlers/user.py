@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 
 from telegram_bot.create_bot import bot
 from telegram_bot.utils.database import UsersDatabase
+from soft.signal_generation import work
 
 users = UsersDatabase()
 
@@ -20,15 +21,11 @@ async def welcome(message: types.Message):
         await send_every_10_minutes()
 
 
-async def send_statistic(message: types.Message):
-    await bot.send_photo()
-
-
 async def send_every_10_minutes():
     while True:
-        for user_id in users.get_all_users():
-            await bot.send_message(user_id[0], 'work')
-        await asyncio.sleep(3)
+        if work():
+            await bot.send_message(-1001878714474, '+[BOT] Тут будет выводиться сигнал каждые 10 минут')
+            await asyncio.sleep(300)
 
 
 def register_handlers_client(dp: Dispatcher):

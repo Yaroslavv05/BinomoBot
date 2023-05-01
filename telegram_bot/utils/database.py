@@ -1,5 +1,4 @@
 import sqlite3
-from aiogram import types
 
 conn = sqlite3.connect('users.db')
 cur = conn.cursor()
