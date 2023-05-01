@@ -1,5 +1,6 @@
 import sqlite3
 from tradingview_ta import TA_Handler, Interval, Exchange
+import datetime
 
 conn = sqlite3.connect('InfoToSignal.db')
 cursor = conn.cursor()
@@ -28,6 +29,11 @@ def get_now_price():
     )
     price_now = handler.get_analysis().indicators['close']
     return price_now
+
+
+def check_fuc():
+    is_time = True if datetime.datetime.now() >= get_exit_time() else False
+
 
 
 cursor.close()
