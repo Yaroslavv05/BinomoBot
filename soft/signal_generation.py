@@ -1,7 +1,7 @@
 from tradingview_ta import TA_Handler, Interval, Exchange
 import time
 from datetime import datetime, timedelta
-from BinomoBot.soft.db.InfoToSignalDB import DataInfoToSignal
+from soft.db.InfoToSignalDB import DataInfoToSignal
 from selenium import webdriver
 
 symbols = ['EURUSD', 'GBPUSD', 'CHFJPY', 'EURJPY', 'EURCAD', 'USDJPY', 'NZDJPY', 'USDCAD', 'AUDUSD', 'AUDCAD', 'AUDNZD',
