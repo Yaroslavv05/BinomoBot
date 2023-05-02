@@ -69,7 +69,9 @@ def work():
                     enter_price = handler.get_analysis().indicators['close']
                     print(f'Цена при входе - {enter_price}', time_now, name_pair, f'Buy - выход со сделки в {exit_position}')
                     longs.append(data['SYMBOL'])
-                    browser = webdriver.Chrome()
+                    option = webdriver.ChromeOptions()
+                    option.headless = True
+                    browser = webdriver.Chrome(options=option)
                     browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3A{data["SYMBOL"]}')
                     time.sleep(3)
                     browser.save_screenshot('screenshot.png')
@@ -93,7 +95,9 @@ def work():
                     enter_price = handler.get_analysis().indicators['close']
                     print(f'Цена при входе - {enter_price}', time_now, name_pair, f'Sell - выход со сделки в {exit_position}')
                     shorts.append(data['SYMBOL'])
-                    browser = webdriver.Chrome()
+                    option = webdriver.ChromeOptions()
+                    option.headless = True
+                    browser = webdriver.Chrome(options=option)
                     browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3A{data["SYMBOL"]}')
                     time.sleep(3)
                     browser.save_screenshot('screenshot.png')
