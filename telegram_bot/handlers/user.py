@@ -1,5 +1,5 @@
 import asyncio
-
+import datetime
 from aiogram import types, Dispatcher
 from soft.db.VerifyDB import DataVerify
 from telegram_bot.create_bot import bot
@@ -29,20 +29,20 @@ async def send_every_10_minutes():
                              )
         await asyncio.sleep(300)
         now_price = float(get_now_price())
+        today = datetime.date.today()
         if now_price >= float(data[4]) and data[1] == 'LONG':
-            write = DataVerify(data[0], '+')
+            write = DataVerify(today, data[0], '+')
             write.input_data()
             await bot.send_message(-1001878714474, f'{data[0]}\n\n✅ Сигнал зашел')
         elif now_price <= float(data[4]) and data[1] == 'SHORT':
-            write = DataVerify(data[0], '+')
+            write = DataVerify(today, data[0], '+')
             write.input_data()
             await bot.send_message(-1001878714474, f'{data[0]}\n\n✅ Сигнал зашел')
         else:
-            write = DataVerify(data[0], '-')
+            write = DataVerify(today, data[0], '-')
             write.input_data()
             await bot.send_message(-1001878714474, f'{data[0]}\n\n❌ Сигнал не зашел')
         await asyncio.sleep(120)
-
 
 
 def register_handlers_client(dp: Dispatcher):
