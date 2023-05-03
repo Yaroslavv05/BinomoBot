@@ -3,6 +3,7 @@ import time
 from datetime import datetime, timedelta
 from soft.db.InfoToSignalDB import DataInfoToSignal
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 symbols = ['EURUSD', 'GBPUSD', 'CHFJPY', 'EURJPY', 'EURCAD', 'USDJPY', 'NZDJPY', 'USDCAD', 'AUDUSD', 'AUDCAD', 'AUDNZD',
            'EURMXN', 'GBPJPY', 'AUDJPY', 'USDCHF', 'EURNZD', 'NZDUSD', 'GBPNZD']
@@ -60,24 +61,18 @@ def work():
                     position = 'LONG'
                     ex = now + timedelta(minutes=5)
                     exit_position = ex.strftime("%H:%M")
-                    handler = TA_Handler(
-                        symbol=name_pair,
-                        screener="forex",
-                        exchange=Exchange.FOREX,
-                        interval=Interval.INTERVAL_1_MINUTE
-                    )
-                    enter_price = handler.get_analysis().indicators['close']
-                    print(f'Цена при входе - {enter_price}', time_now, name_pair, f'Buy - выход со сделки в {exit_position}')
                     longs.append(data['SYMBOL'])
                     option = webdriver.ChromeOptions()
                     option.headless = True
                     browser = webdriver.Chrome(options=option)
                     browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3A{data["SYMBOL"]}')
                     time.sleep(3)
+                    enter_price = browser.find_element(By.XPATH,'/html/body/div[2]/div[6]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/span[1]/span[1]').text
                     browser.save_screenshot('screenshot.png')
                     browser.quit()
                     Data = DataInfoToSignal()
                     Data.input_data(name_pair=name_pair, position=position, enter_time=time_now, exit_time=exit_position, enter_price=enter_price)
+                    print(f'Цена при входе - {enter_price}', time_now, name_pair, f'Buy - выход со сделки в {exit_position}')
                     return True
                 elif data['RECOMMENDATION'] == 'STRONG_SELL' and data['SYMBOL'] not in shorts:
                     now = datetime.now()
@@ -86,25 +81,21 @@ def work():
                     position = 'SHORT'
                     ex = now + timedelta(minutes=5)
                     exit_position = ex.strftime("%H:%M")
-                    handler = TA_Handler(
-                        symbol=name_pair,
-                        screener="forex",
-                        exchange=Exchange.FOREX,
-                        interval=Interval.INTERVAL_1_MINUTE
-                    )
-                    enter_price = handler.get_analysis().indicators['close']
-                    print(f'Цена при входе - {enter_price}', time_now, name_pair, f'Sell - выход со сделки в {exit_position}')
                     shorts.append(data['SYMBOL'])
                     option = webdriver.ChromeOptions()
                     option.headless = True
                     browser = webdriver.Chrome(options=option)
                     browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3A{data["SYMBOL"]}')
                     time.sleep(3)
+                    enter_price = browser.find_element(By.XPATH,'/html/body/div[2]/div[6]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/span[1]/span[1]').text
                     browser.save_screenshot('screenshot.png')
                     browser.quit()
                     Data = DataInfoToSignal()
                     Data.input_data(name_pair=name_pair, position=position, enter_time=time_now, exit_time=exit_position, enter_price=enter_price)
+                    print(f'Цена при входе - {enter_price}', time_now, name_pair, f'Buy - выход со сделки в {exit_position}')
                     return True
                 time.sleep(0.01)
             except:
                 pass
+
+work()
