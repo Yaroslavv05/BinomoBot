@@ -92,7 +92,7 @@ def work():
                     browser.quit()
                     Data = DataInfoToSignal()
                     Data.input_data(name_pair=name_pair, position=position, enter_time=time_now, exit_time=exit_position, enter_price=enter_price)
-                    print(f'Цена при входе - {enter_price}', time_now, name_pair, f'Buy - выход со сделки в {exit_position}')
+                    print(f'Цена при входе - {enter_price}', time_now, name_pair, f'Sell - выход со сделки в {exit_position}')
                     return True
                 time.sleep(0.01)
             except:
