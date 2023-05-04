@@ -8,7 +8,11 @@ from telegram_bot.handlers import user
 async def send_messages(dp):
     # Сделать вторую асинхронную функцию которая скорее всего будет работать в другом потоке которая будет проверять
     # когда писать доброе утро мы начинаем работу..
-    asyncio.create_task(user.send_every_10_minutes())
+
+    task1 = asyncio.create_task(user.check_daily_time())
+    task2 = asyncio.create_task(user.send_every_10_minutes())
+
+    await asyncio.gather(task1, task2)
 
 
 if __name__ == "__main__":

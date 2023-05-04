@@ -2,7 +2,7 @@ import sqlite3
 
 
 class DataInfoToSignal:
-    con = sqlite3.connect('InfoToSignal.db')
+    con = sqlite3.connect('InfoToSignal.db', check_same_thread=False)
     cur = con.cursor()
 
     def __init__(self):

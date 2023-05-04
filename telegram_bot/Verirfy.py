@@ -40,5 +40,5 @@ def get_now_price():
 
     driver.get(url)
 
-    time.sleep(1)
+    time.sleep(6)
     return driver.find_element(By.XPATH, '/html/body/div[2]/div[6]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/span[1]/span[1]').text
