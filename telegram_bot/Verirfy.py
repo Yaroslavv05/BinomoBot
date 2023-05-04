@@ -1,7 +1,7 @@
 import sqlite3
-from tradingview_ta import TA_Handler, Exchange, Interval
-import datetime
-
+import datetime, time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 def get_exit_time():
     conn = sqlite3.connect('InfoToSignal.db')
@@ -17,6 +17,10 @@ def get_exit_time():
     return exit_time
 
 
+# def get_now_price2():
+
+
+
 def get_now_price():
     conn = sqlite3.connect('InfoToSignal.db')
     cursor = conn.cursor()
@@ -25,18 +29,16 @@ def get_now_price():
     rows = cursor.fetchall()
     for row in rows:
         info.append(row)
-    name_pair = info[len(info) - 1][0]
-    handler = TA_Handler(
-        symbol=name_pair,
-        screener="forex",
-        exchange=Exchange.FOREX,
-        interval=Interval.INTERVAL_1_MINUTE
-    )
-    price_now = handler.get_analysis().indicators['close']
-    cursor.close()
-    conn.close()
-    return price_now
 
+    symbol = info[len(info) - 1][0]
 
-def check_fuc():
-    is_time = True if datetime.datetime.now() >= get_exit_time() else False
+    option = webdriver.ChromeOptions()
+    option.add_argument('--headless')
+    driver = webdriver.Chrome(options=option)
+
+    url = f'https://ru.tradingview.com/chart/?symbol=OANDA%3A{symbol}'
+
+    driver.get(url)
+
+    time.sleep(1)
+    return driver.find_element(By.XPATH, '/html/body/div[2]/div[6]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/span[1]/span[1]').text

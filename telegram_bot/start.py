@@ -6,6 +6,8 @@ from telegram_bot.handlers import user
 
 
 async def send_messages(dp):
+    # Сделать вторую асинхронную функцию которая скорее всего будет работать в другом потоке которая будет проверять
+    # когда писать доброе утро мы начинаем работу..
     asyncio.create_task(user.send_every_10_minutes())
 
 

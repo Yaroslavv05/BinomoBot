@@ -21,28 +21,32 @@ async def welcome(message: types.Message):
 
 async def send_every_10_minutes():
     while True:
+        # -1001878714474 прод
+        # -1001969551915 тест
         if work():
             data = datainfotosignal.get_last_forcast()
-        await bot.send_photo(-1001878714474, photo=open('screenshot.png', 'rb'),
-                             caption=f'{data[0]}\n\nИспользуя свой набор индикаторов я вижу силу движения цены в {"нижнюю" if data[1] == "SHORT" else "верхнюю"} зону флета.'
-                                     f'\nОткрываем сделку в {"низ" if data[1] == "SHORT" else "вверх"} по заданной валютной паре.\n\nВремя прогноза {data[3]}'
-                             )
-        await asyncio.sleep(300)
-        now_price = float(get_now_price())
-        today = datetime.date.today()
-        if now_price >= float(data[4]) and data[1] == 'LONG':
-            write = DataVerify(today, data[0], '+')
-            write.input_data()
-            await bot.send_message(-1001878714474, f'{data[0]}\n\n✅ Сигнал зашел')
-        elif now_price <= float(data[4]) and data[1] == 'SHORT':
-            write = DataVerify(today, data[0], '+')
-            write.input_data()
-            await bot.send_message(-1001878714474, f'{data[0]}\n\n✅ Сигнал зашел')
-        else:
-            write = DataVerify(today, data[0], '-')
-            write.input_data()
-            await bot.send_message(-1001878714474, f'{data[0]}\n\n❌ Сигнал не зашел')
-        await asyncio.sleep(120)
+            await bot.send_photo(-1001969551915, photo=open('screenshot.png', 'rb'),
+                                 caption=f'{data[0]}\n\nИспользуя свой набор индикаторов я вижу силу движения цены в {"нижнюю" if data[1] == "SHORT" else "верхнюю"} зону флета.'
+                                         f'\nОткрываем сделку в {"низ" if data[1] == "SHORT" else "вверх"} по заданной валютной паре.\n\nВремя прогноза {data[3]}'
+                                 )
+            await asyncio.sleep(300)
+            now_price = float(get_now_price())
+            print(now_price)
+            today = datetime.date.today()
+            if now_price >= float(data[4]) and data[1] == 'LONG':
+                write = DataVerify(today, data[0], '+')
+                write.input_data()
+                await bot.send_message(-1001969551915, f'{data[0]}\n\n✅ Сигнал зашел')
+            elif now_price <= float(data[4]) and data[1] == 'SHORT':
+                write = DataVerify(today, data[0], '+')
+                write.input_data()
+                await bot.send_message(-1001969551915, f'{data[0]}\n\n✅ Сигнал зашел')
+            else:
+                write = DataVerify(today, data[0], '-')
+                write.input_data()
+                await bot.send_message(-1001969551915, f'{data[0]}\n\n❌ Сигнал не зашел')
+            await asyncio.sleep(120)
+
 
 
 def register_handlers_client(dp: Dispatcher):
