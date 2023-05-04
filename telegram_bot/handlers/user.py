@@ -31,7 +31,6 @@ async def send_every_10_minutes():
                                  )
             await asyncio.sleep(300)
             now_price = float(get_now_price())
-            print(now_price)
             today = datetime.date.today()
             if now_price >= float(data[4]) and data[1] == 'LONG':
                 write = DataVerify(today, data[0], '+')
