@@ -15,10 +15,11 @@ data_verify = DataVerify()
 
 
 async def welcome(message: types.Message):
-    await bot.send_message(message.chat.id, 'hello!')
-    if not users.if_user_exists(message.from_user.id):
-        users.create_new_user(message.from_user.id)
-        await send_every_10_minutes()
+    await bot.send_message(message.chat.id, 'Вас приветствует Boss_trade_bot!\nЧтобы получить бонус от меня напиши команду /bonus')
+
+
+async def bonus(message: types.Message):
+    await bot.send_message(message.chat.id, 'Вводи промокод BigBoss , и получай +100% к депозиту')
 
 
 async def send_every_10_minutes():
@@ -79,6 +80,6 @@ async def check_daily_time():
         await asyncio.sleep(5)
 
 
-
 def register_handlers_client(dp: Dispatcher):
     dp.register_message_handler(welcome, commands=['start', 'help'])
+    dp.register_message_handler(bonus, commands=['bonus'])
