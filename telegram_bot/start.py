@@ -10,7 +10,7 @@ async def send_messages():
     # Create tasks for the user functions, passing a message argument to each task
     task2 = asyncio.create_task(user.check_daily_time())
     task3 = asyncio.create_task(user.send_every_10_minutes())
-    await asyncio.gather(task2)
+    await asyncio.gather(task2, task3)
 
 
 async def main():
