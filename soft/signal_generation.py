@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from soft.db.InfoToSignalDB import DataInfoToSignal
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 
 symbols = ['EURUSD', 'GBPUSD', 'CHFJPY', 'EURJPY', 'EURCAD', 'USDJPY', 'NZDJPY', 'USDCAD', 'AUDUSD', 'AUDCAD', 'AUDNZD',
            'EURMXN', 'GBPJPY', 'AUDJPY', 'USDCHF', 'EURNZD', 'NZDUSD', 'GBPNZD']
@@ -59,13 +60,16 @@ def work():
                     time_now = now.strftime("%H:%M")
                     name_pair = data['SYMBOL']
                     position = 'LONG'
-                    ex = now + timedelta(minutes=5)
+                    ex = now + timedelta(minutes=3)
                     exit_position = ex.strftime("%H:%M")
                     longs.append(data['SYMBOL'])
-                    option = webdriver.ChromeOptions()
-                    option.headless = True
+                    option = Options()
+                    option.add_argument('--headless')
+                    option.add_argument('--disable-gpu')
+                    option.add_argument('--start-maximized')  # максимизируем окно браузера
+                    option.add_argument('--window-size=1920,1080')  # задаем размер окна браузера
                     browser = webdriver.Chrome(options=option)
-                    browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3A{data["SYMBOL"]}')
+                    browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3AEURUSD')
                     time.sleep(3)
                     enter_price = browser.find_element(By.XPATH,'/html/body/div[2]/div[6]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/span[1]/span[1]').text
                     browser.save_screenshot('screenshot.png')
@@ -79,13 +83,16 @@ def work():
                     time_now = now.strftime("%H:%M")
                     name_pair = data['SYMBOL']
                     position = 'SHORT'
-                    ex = now + timedelta(minutes=5)
+                    ex = now + timedelta(minutes=3)
                     exit_position = ex.strftime("%H:%M")
                     shorts.append(data['SYMBOL'])
-                    option = webdriver.ChromeOptions()
-                    option.headless = True
+                    option = Options()
+                    option.add_argument('--headless')
+                    option.add_argument('--disable-gpu')
+                    option.add_argument('--start-maximized')  # максимизируем окно браузера
+                    option.add_argument('--window-size=1920,1080')  # задаем размер окна браузера
                     browser = webdriver.Chrome(options=option)
-                    browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3A{data["SYMBOL"]}')
+                    browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3AEURUSD')
                     time.sleep(3)
                     enter_price = browser.find_element(By.XPATH,'/html/body/div[2]/div[6]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/span[1]/span[1]').text
                     browser.save_screenshot('screenshot.png')
