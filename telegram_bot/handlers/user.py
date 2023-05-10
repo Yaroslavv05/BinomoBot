@@ -38,7 +38,7 @@ async def send_every_10_minutes():
                                              caption=f'{data[0]}\n\nИспользуя свой набор индикаторов я вижу силу движения цены в {"нижнюю" if data[1] == "SHORT" else "верхнюю"} зону флета.'
                                                      f'\nОткрываем сделку в {"низ" if data[1] == "SHORT" else "вверх"} по заданной валютной паре.\n\nВремя прогноза {data[3]}'
                                              )
-                        await asyncio.sleep(300)
+                        await asyncio.sleep(180)
                         now_price = float(get_now_price())
                         now = datetime.now()
                         today = now.strftime("%Y-%m-%d")
