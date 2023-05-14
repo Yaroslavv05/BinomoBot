@@ -37,7 +37,7 @@ class UsersDatabase:
         data = cur.execute('SELECT * FROM work_time').fetchone()
         if not data:
             now = datetime.now()
-            if not now > datetime.combine(now.date(), time(hour=21)) or now < datetime.combine(now.date(), time(hour=9)):
+            if not now > datetime.combine(now.date(), time(hour=21)) or not now < datetime.combine(now.date(), time(hour=9)):
                 cur.execute('INSERT INTO work_time(num, is_send_morning, is_send_evening) VALUES(?,?, ?)',
                             (1, True, False))
             else:

@@ -35,8 +35,10 @@ async def send_every_10_minutes():
                     if result:
                         data = datainfotosignal.get_last_forcast()
                         await bot.send_photo(-1001969551915, photo=open('screenshot.png', 'rb'),
-                                             caption=f'Валютная пара: *{data[0]}*\n\nНаправление: *НА* {"*ПРОДАЖУ* 🔴" if data[1] == "SHORT" else "*ПОКУПКУ* 🟢"}\n\nЦена торгового актива: *{data[4]}* 💵\nВремя выхода: *{data[3]}* 🕖')
-                        await asyncio.sleep(180)
+                                             caption=f'{data[0]}\n\nИспользуя свой набор индикаторов я вижу силу движения цены в {"нижнюю" if data[1] == "SHORT" else "верхнюю"} зону флета.'
+                                                     f'\nОткрываем сделку в {"низ" if data[1] == "SHORT" else "вверх"} по заданной валютной паре.\n\nВремя прогноза {data[3]}'
+                                             )
+                        await asyncio.sleep(300)
                         now_price = float(get_now_price())
                         now = datetime.now()
                         today = now.strftime("%Y-%m-%d")
@@ -62,11 +64,15 @@ async def check_daily_time():
             now = datetime.now()
             if now > datetime.combine(now.date(), time(hour=21)) or now < datetime.combine(now.date(), time(hour=9)):
                 if users.is_work_time()[1]:
-                    all_signals = len(data_verify.get_all_signals())
-                    plus = float(all_signals) * 0.75
-                    minus = float(all_signals) * 0.25
-                    await bot.send_photo(-1001969551915, photo=open('preview.png', 'rb'),
-                                         caption=f'Всем добрый вечер 😊\n\nТорговый день закончен, сегодня было ({all_signals}) сделок из которых:\n✅ ({plus}) зашли\n❌ ({minus}) не зашло\n\nВсем хорошего вечера, пока ☺️')
+                    minus = 0
+                    plus = 0
+
+                    for i in data_verify.get_all_signals():
+                        if i[2] == '-':
+                            minus+=1
+                        elif i[2] == '+':
+                            plus+=1
+                    await bot.send_message(-1001969551915, 'Бот заканчивает анализ и торговлю на сегодня, всем пока 👋')
                     users.change_work_time(morning=False, evening=True)
             else:
                 if users.is_work_time()[2]:
