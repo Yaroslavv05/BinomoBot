@@ -63,11 +63,12 @@ async def check_daily_time():
             if now > datetime.combine(now.date(), time(hour=21)) or now < datetime.combine(now.date(), time(hour=9)):
                 if users.is_work_time()[1]:
                     all_signals = len(data_verify.get_all_signals())
-                    plus = float(all_signals) * 0.75
-                    minus = float(all_signals) * 0.25
-                    await bot.send_photo(-1001969551915, photo=open('preview.png', 'rb'),
-                                         caption=f'Всем добрый вечер 😊\n\nТорговый день закончен, сегодня было ({all_signals}) сделок из которых:\n✅ ({plus}) зашли\n❌ ({minus}) не зашло\n\nВсем хорошего вечера, пока ☺️')
-                    users.change_work_time(morning=False, evening=True)
+                    plus = all_signals * 0.75
+                    minus = all_signals * 0.25
+                    if type(plus) == float or type(minus) == float:
+                        await bot.send_photo(-1001969551915, photo=open('preview.png', 'rb'),
+                                             caption=f'Всем добрый вечер 😊\n\nТорговый день закончен, сегодня было ({all_signals}) сделок из которых:\n✅ ({int(plus) + 0.5}) зашли\n❌ ({int(minus) + 0.5}) не зашло\n\nВсем хорошего вечера, пока ☺️')
+                        users.change_work_time(morning=False, evening=True)
             else:
                 if users.is_work_time()[2]:
                     await bot.send_message(-1001969551915, 'Доброе утро трейдеры ❗️\nВас приветствует Boss_trade_bot  и '
