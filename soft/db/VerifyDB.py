@@ -1,6 +1,7 @@
 import sqlite3
 from datetime import datetime
 
+
 class DataVerify:
     con = sqlite3.connect('InfoToSignal.db')
     cur = con.cursor()
