@@ -69,6 +69,10 @@ async def check_daily_time():
                         await bot.send_photo(-1001969551915, photo=open('preview.png', 'rb'),
                                              caption=f'Всем добрый вечер 😊\n\nТорговый день закончен, сегодня было ({all_signals}) сделок из которых:\n✅ ({int(plus) + 0.5}) зашли\n❌ ({int(minus) + 0.5}) не зашло\n\nВсем хорошего вечера, пока ☺️')
                         users.change_work_time(morning=False, evening=True)
+                    else:
+                        await bot.send_photo(-1001969551915, photo=open('preview.png', 'rb'),
+                                             caption=f'Всем добрый вечер 😊\n\nТорговый день закончен, сегодня было ({all_signals}) сделок из которых:\n✅ ({int(plus)}) зашли\n❌ ({int(minus)}) не зашло\n\nВсем хорошего вечера, пока ☺️')
+                        users.change_work_time(morning=False, evening=True)
             else:
                 if users.is_work_time()[2]:
                     await bot.send_message(-1001969551915, 'Доброе утро трейдеры ❗️\nВас приветствует Boss_trade_bot  и '
