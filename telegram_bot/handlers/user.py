@@ -40,7 +40,7 @@ async def send_every_10_minutes():
                         today = now.strftime("%Y-%m-%d")
                         data = datainfotosignal.get_last_forcast()
                         data_m = await bot.send_photo(-1001969551915, photo=open('screenshot.png', 'rb'),
-                                             caption=f'Валютная пара: *{data[0]}*\n\nНаправление: *НА* {"*ПРОДАЖУ* 🔴" if data[1] == "SHORT" else "*ПОКУПКУ* 🟢"}\n\nЦена торгового актива: *{data[4]}* 💵\nВремя выхода: *{data[3]}* 🕖')
+                                             caption=f'Валютная пара: {data[0]}\n\nНаправление: НА {"ПРОДАЖУ 🔴" if data[1] == "SHORT" else "ПОКУПКУ 🟢"}\n\nЦена торгового актива: {data[4]} 💵\nВремя выхода: {data[3]} 🕖')
                         write.input_data2(today, data_m.message_id)
                         await asyncio.sleep(180)
                         now_price = float(get_now_price())
