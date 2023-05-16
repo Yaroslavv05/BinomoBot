@@ -1,5 +1,7 @@
 import asyncio
 from datetime import datetime, time
+
+import aiogram.utils.exceptions
 from aiogram import types, Dispatcher
 from soft.db.VerifyDB import DataVerify
 from telegram_bot.create_bot import bot
@@ -33,23 +35,27 @@ async def send_every_10_minutes():
                     is_true = loop.run_in_executor(pool, work)
                     result = await is_true
                     if result:
-                        data = datainfotosignal.get_last_forcast()
-                        await bot.send_photo(-1001969551915, photo=open('screenshot.png', 'rb'),
-                                             caption=f'Валютная пара: *{data[0]}*\n\nНаправление: *НА* {"*ПРОДАЖУ* 🔴" if data[1] == "SHORT" else "*ПОКУПКУ* 🟢"}\n\nЦена торгового актива: *{data[4]}* 💵\nВремя выхода: *{data[3]}* 🕖')
-                        await asyncio.sleep(180)
-                        now_price = float(get_now_price())
+                        write = DataVerify()
                         now = datetime.now()
                         today = now.strftime("%Y-%m-%d")
-                        write = DataVerify()
+                        data = datainfotosignal.get_last_forcast()
+                        data_m = await bot.send_photo(-1001969551915, photo=open('screenshot.png', 'rb'),
+                                             caption=f'Валютная пара: *{data[0]}*\n\nНаправление: *НА* {"*ПРОДАЖУ* 🔴" if data[1] == "SHORT" else "*ПОКУПКУ* 🟢"}\n\nЦена торгового актива: *{data[4]}* 💵\nВремя выхода: *{data[3]}* 🕖')
+                        write.input_data2(today, data_m.message_id)
+                        await asyncio.sleep(180)
+                        now_price = float(get_now_price())
                         if now_price >= float(data[4]) and data[1] == 'LONG':
+                            data_m = await bot.send_message(-1001969551915, f'{data[0]}\n\n✅ Сигнал зашел')
                             write.input_data(today, data[0], '+')
-                            await bot.send_message(-1001969551915, f'{data[0]}\n\n✅ Сигнал зашел')
+                            write.input_data2(today, data_m.message_id)
                         elif now_price <= float(data[4]) and data[1] == 'SHORT':
+                            data_m = await bot.send_message(-1001969551915, f'{data[0]}\n\n✅ Сигнал зашел')
                             write.input_data(today, data[0], '+')
-                            await bot.send_message(-1001969551915, f'{data[0]}\n\n✅ Сигнал зашел')
+                            write.input_data2(today, data_m.message_id)
                         else:
+                            data_m = await bot.send_message(-1001969551915, f'{data[0]}\n\n❌ Сигнал не зашел')
                             write.input_data(today, data[0], '-')
-                            await bot.send_message(-1001969551915, f'{data[0]}\n\n❌ Сигнал не зашел')
+                            write.input_data2(today, data_m.message_id)
                         await asyncio.sleep(120)
                 await asyncio.sleep(1)
             else:
@@ -65,12 +71,17 @@ async def check_daily_time():
                     all_signals = len(data_verify.get_all_signals())
                     plus = all_signals * 0.75
                     minus = all_signals * 0.25
+                    for i in data_verify.get_all_messages():
+                        try:
+                            await bot.delete_message(-1001969551915, i[0])
+                        except aiogram.utils.exceptions.MessageToDeleteNotFound:
+                            pass
                     if type(plus) == float or type(minus) == float:
-                        await bot.send_photo(-1001969551915, photo=open('preview.png', 'rb'),
+                        await bot.send_photo(-1001969551915, photo=open('preview.jpg', 'rb'),
                                              caption=f'Всем добрый вечер 😊\n\nТорговый день закончен, сегодня было ({all_signals}) сделок из которых:\n✅ ({int(plus) + 0.5}) зашли\n❌ ({int(minus) + 0.5}) не зашло\n\nВсем хорошего вечера, пока ☺️')
                         users.change_work_time(morning=False, evening=True)
                     else:
-                        await bot.send_photo(-1001969551915, photo=open('preview.png', 'rb'),
+                        await bot.send_photo(-1001969551915, photo=open('preview.jpg', 'rb'),
                                              caption=f'Всем добрый вечер 😊\n\nТорговый день закончен, сегодня было ({all_signals}) сделок из которых:\n✅ ({int(plus)}) зашли\n❌ ({int(minus)}) не зашло\n\nВсем хорошего вечера, пока ☺️')
                         users.change_work_time(morning=False, evening=True)
             else:

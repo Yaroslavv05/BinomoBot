@@ -68,6 +68,7 @@ def work():
                     option.add_argument('--disable-gpu')
                     option.add_argument('--start-maximized')  # максимизируем окно браузера
                     option.add_argument('--window-size=1920,1080')  # задаем размер окна браузера
+                    #option.add_argument('--no-sandbox')
                     browser = webdriver.Chrome(options=option)
                     browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3AEURUSD')
                     time.sleep(3)
@@ -91,6 +92,7 @@ def work():
                     option.add_argument('--disable-gpu')
                     option.add_argument('--start-maximized')  # максимизируем окно браузера
                     option.add_argument('--window-size=1920,1080')  # задаем размер окна браузера
+                    # option.add_argument('--no-sandbox')
                     browser = webdriver.Chrome(options=option)
                     browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3AEURUSD')
                     time.sleep(3)

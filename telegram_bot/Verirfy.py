@@ -36,6 +36,7 @@ def get_now_price():
         try:
             option = webdriver.ChromeOptions()
             option.add_argument('--headless')
+            # option.add_argument('--no-sandbox')
             driver = webdriver.Chrome(options=option)
 
             url = f'https://ru.tradingview.com/chart/?symbol=OANDA%3A{symbol}'
