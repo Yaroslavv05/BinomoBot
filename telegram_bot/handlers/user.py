@@ -69,8 +69,8 @@ async def check_daily_time():
             if now > datetime.combine(now.date(), time(hour=21)) or now < datetime.combine(now.date(), time(hour=9)):
                 if users.is_work_time()[1]:
                     all_signals = len(data_verify.get_all_signals())
-                    plus = int(all_signals * 0.8)
-                    minus = int(all_signals * 0.2)
+                    plus = int(all_signals * 0.7)
+                    minus = int(all_signals * 0.3)
                     for i in data_verify.get_all_messages():
                         try:
                             await bot.delete_message(-1001969551915, i[0])
