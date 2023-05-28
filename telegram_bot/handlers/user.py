@@ -43,7 +43,11 @@ async def send_every_10_minutes():
                                              caption=f'Валютная пара: {data[0]}\n\nНаправление: НА {"ПРОДАЖУ 🔴" if data[1] == "SHORT" else "ПОКУПКУ 🟢"}\n\nЦена торгового актива: {data[4]} 💵\nВремя выхода: {data[3]} 🕖')
                         write.input_data2(today, data_m.message_id)
                         await asyncio.sleep(180)
-                        now_price = float(get_now_price())
+                        now_price = get_now_price()
+                        if not now_price:
+                            continue
+                        else:
+                            now_price = float(now_price())
                         if now_price >= float(data[4]) and data[1] == 'LONG':
                             data_m = await bot.send_message(-1001949621459, f'{data[0]}\n\n✅ Сигнал зашел')
                             write.input_data(today, data[0], '+')
