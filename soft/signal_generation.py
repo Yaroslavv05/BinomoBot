@@ -72,7 +72,7 @@ def work():
                     browser = webdriver.Chrome(options=option)
                     browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3A{data["SYMBOL"]}')
                     time.sleep(3)
-                    enter_price = browser.find_element(By.XPATH,'/html/body/div[2]/div[6]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/span[1]/span[1]').text
+                    enter_price = browser.find_element(By.XPATH,'/html/body/div[2]/div[6]/div/div[1]/div[1]/div[1]/div[2]/div[2]/div/div[2]/div[2]/span[1]/span[1]').text
                     browser.save_screenshot('screenshot.png')
                     browser.quit()
                     Data = DataInfoToSignal()
@@ -104,7 +104,8 @@ def work():
                     print(f'Цена при входе - {enter_price}', time_now, name_pair, f'Sell - выход со сделки в {exit_position}')
                     return True
                 time.sleep(0.01)
-            except:
-                pass
+            except Exception as e:
+                print(e)
+
 
 work()
