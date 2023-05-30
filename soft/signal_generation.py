@@ -70,7 +70,7 @@ def work():
                     option.add_argument('--window-size=1920,1080')  # задаем размер окна браузера
                     #option.add_argument('--no-sandbox')
                     browser = webdriver.Chrome(options=option)
-                    browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3AEURUSD')
+                    browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3A{data["SYMBOL"]}')
                     time.sleep(3)
                     enter_price = browser.find_element(By.XPATH,'/html/body/div[2]/div[6]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/span[1]/span[1]').text
                     browser.save_screenshot('screenshot.png')
@@ -94,7 +94,7 @@ def work():
                     option.add_argument('--window-size=1920,1080')  # задаем размер окна браузера
                     # option.add_argument('--no-sandbox')
                     browser = webdriver.Chrome(options=option)
-                    browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3AEURUSD')
+                    browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3A{data["SYMBOL"]}')
                     time.sleep(3)
                     enter_price = browser.find_element(By.XPATH,'/html/body/div[2]/div[6]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/span[1]/span[1]').text
                     browser.save_screenshot('screenshot.png')
@@ -106,3 +106,5 @@ def work():
                 time.sleep(0.01)
             except:
                 pass
+
+work()

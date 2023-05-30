@@ -47,7 +47,7 @@ async def send_every_10_minutes():
                         if not now_price:
                             continue
                         else:
-                            now_price = float(now_price())
+                            now_price = float(now_price)
                         if now_price >= float(data[4]) and data[1] == 'LONG':
                             data_m = await bot.send_message(-1001949621459, f'{data[0]}\n\n✅ Сигнал зашел')
                             write.input_data(today, data[0], '+')
