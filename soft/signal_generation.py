@@ -106,6 +106,3 @@ def work():
                 time.sleep(0.01)
             except Exception as e:
                 print(e)
-
-
-work()
