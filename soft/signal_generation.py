@@ -75,14 +75,7 @@ def work():
                     try:
                         enter_price = browser.find_element(By.XPATH,'/html/body/div[2]/div[6]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/span[1]/span[1]').text
                     except:
-                        handler = TA_Handler(
-                            symbol=data['SYMBOL'],
-                            exchange=Exchange.FOREX,
-                            screener="forex",
-                            interval=Interval.INTERVAL_1_MINUTE
-                        )
-                        analysis = handler.get_analysis()
-                        enter_price = analysis.indicators["close"]
+                        continue
                     browser.save_screenshot('screenshot.png')
                     browser.quit()
                     Data = DataInfoToSignal()
@@ -110,14 +103,7 @@ def work():
                         enter_price = browser.find_element(By.XPATH,
                                                            '/html/body/div[2]/div[6]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/span[1]/span[1]').text
                     except:
-                        handler = TA_Handler(
-                            symbol=data['SYMBOL'],
-                            exchange=Exchange.FOREX,
-                            screener="forex",
-                            interval=Interval.INTERVAL_1_MINUTE
-                        )
-                        analysis = handler.get_analysis()
-                        enter_price = analysis.indicators["close"]
+                        continue
                     browser.save_screenshot('screenshot.png')
                     browser.quit()
                     Data = DataInfoToSignal()
