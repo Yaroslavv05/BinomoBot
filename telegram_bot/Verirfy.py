@@ -3,6 +3,7 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import WebDriverException, NoSuchElementException
+from tradingview_ta import TA_Handler, Interval, Exchange
 
 
 def get_exit_time():
@@ -44,6 +45,16 @@ def get_now_price():
             driver.get(url)
 
             time.sleep(5)
-            return driver.find_element(By.XPATH, '/html/body/div[2]/div[6]/div/div[1]/div[1]/div[1]/div[2]/div[2]/div/div[2]/div[2]/span[1]/span[1]').text
+            try:
+                return driver.find_element(By.XPATH, '/html/body/div[2]/div[6]/div/div[1]/div[1]/div[1]/div[2]/div[2]/div/div[2]/div[2]/span[1]/span[1]').text
+            except:
+                handler = TA_Handler(
+                    symbol=symbol,
+                    exchange=Exchange.FOREX,
+                    screener="forex",
+                    interval=Interval.INTERVAL_1_MINUTE
+                )
+                analysis = handler.get_analysis()
+                return analysis.indicators["close"]
         except (WebDriverException, NoSuchElementException):
             return False

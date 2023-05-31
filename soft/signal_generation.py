@@ -72,7 +72,17 @@ def work():
                     browser = webdriver.Chrome(options=option)
                     browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3A{data["SYMBOL"]}')
                     time.sleep(3)
-                    enter_price = browser.find_element(By.XPATH,'/html/body/div[2]/div[6]/div/div[1]/div[1]/div[1]/div[2]/div[2]/div/div[2]/div[2]/span[1]/span[1]').text
+                    try:
+                        enter_price = browser.find_element(By.XPATH,'/html/body/div[2]/div[6]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/span[1]/span[1]').text
+                    except:
+                        handler = TA_Handler(
+                            symbol=data['SYMBOL'],
+                            exchange=Exchange.FOREX,
+                            screener="forex",
+                            interval=Interval.INTERVAL_1_MINUTE
+                        )
+                        analysis = handler.get_analysis()
+                        enter_price = analysis.indicators["close"]
                     browser.save_screenshot('screenshot.png')
                     browser.quit()
                     Data = DataInfoToSignal()
@@ -96,7 +106,18 @@ def work():
                     browser = webdriver.Chrome(options=option)
                     browser.get(f'https://ru.tradingview.com/chart/?symbol=OANDA%3A{data["SYMBOL"]}')
                     time.sleep(3)
-                    enter_price = browser.find_element(By.XPATH,'/html/body/div[2]/div[6]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/span[1]/span[1]').text
+                    try:
+                        enter_price = browser.find_element(By.XPATH,
+                                                           '/html/body/div[2]/div[6]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[2]/span[1]/span[1]').text
+                    except:
+                        handler = TA_Handler(
+                            symbol=data['SYMBOL'],
+                            exchange=Exchange.FOREX,
+                            screener="forex",
+                            interval=Interval.INTERVAL_1_MINUTE
+                        )
+                        analysis = handler.get_analysis()
+                        enter_price = analysis.indicators["close"]
                     browser.save_screenshot('screenshot.png')
                     browser.quit()
                     Data = DataInfoToSignal()
@@ -106,6 +127,3 @@ def work():
                 time.sleep(0.01)
             except Exception as e:
                 print(e)
-
-
-work()
